@@ -2,10 +2,6 @@
 provider "aws" { region = "us-east-1" }
 
 
-# VPC
-resource "aws_vpc" "main" { cidr_block = "172.31.0.0/16" }
-
-
 # Data sources
 data "terraform_remote_state" "s3" {
     backend = "s3"
@@ -14,6 +10,48 @@ data "terraform_remote_state" "s3" {
         bucket = "${aws_s3_bucket.tfstate.bucket}"
         key = "terraform.tfstate"
         region = "us-east-1"
+    }
+}
+
+
+# VPC
+resource "aws_vpc" "main" { cidr_block = "172.31.0.0/16" }
+
+
+# Subnets
+resource "aws_subnet" "one" {
+    vpc_id = "${aws_vpc.main.id}"
+    cidr_block = "172.31.0.0/20"
+
+    tags {
+        Name = "Main"
+    }
+}
+
+resource "aws_subnet" "two" {
+    vpc_id = "${aws_vpc.main.id}"
+    cidr_block = "172.31.16.0/20"
+
+    tags {
+        Name = "Main"
+    }
+}
+
+resource "aws_subnet" "three" {
+    vpc_id = "${aws_vpc.main.id}"
+    cidr_block = "172.31.32.0/20"
+
+    tags {
+        Name = "Main"
+    }
+}
+
+resource "aws_subnet" "four" {
+    vpc_id = "${aws_vpc.main.id}"
+    cidr_block = "172.31.48.0/20"
+
+    tags {
+        Name = "Old"
     }
 }
 
