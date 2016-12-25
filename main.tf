@@ -24,7 +24,7 @@ resource "aws_subnet" "one" {
     cidr_block = "172.31.0.0/20"
 
     tags {
-        Name = "Main"
+        Name = "One"
     }
 }
 
@@ -33,7 +33,7 @@ resource "aws_subnet" "two" {
     cidr_block = "172.31.16.0/20"
 
     tags {
-        Name = "Main"
+        Name = "Two"
     }
 }
 
@@ -42,7 +42,7 @@ resource "aws_subnet" "three" {
     cidr_block = "172.31.32.0/20"
 
     tags {
-        Name = "Main"
+        Name = "Three"
     }
 }
 
@@ -51,7 +51,7 @@ resource "aws_subnet" "four" {
     cidr_block = "172.31.48.0/20"
 
     tags {
-        Name = "Old"
+        Name = "Four"
     }
 }
 
