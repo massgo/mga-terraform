@@ -1,5 +1,24 @@
+# Provider
 provider "aws" { region = "us-east-1" }
 
+
+# VPC
+resource "aws_vpc" "main" { cidr_block = "172.31.0.0/16" }
+
+
+# Data sources
+data "terraform_remote_state" "s3" {
+    backend = "s3"
+    config
+    {
+        bucket = "${aws_s3_bucket.tfstate.bucket}"
+        key = "terraform.tfstate"
+        region = "us-east-1"
+    }
+}
+
+
+# Buckets
 resource "aws_s3_bucket" "logs" {
     bucket = "massgo-logs"
     versioning { enabled = false }
@@ -18,10 +37,12 @@ resource "aws_s3_bucket" "tfstate" {
     }
 }
 
-resource "aws_route53_zone" "root" {
-    name = "aws.massgo.org"
-}
 
+# Zones
+resource "aws_route53_zone" "root" { name = "aws.massgo.org" }
+
+
+# Security groups
 resource "aws_security_group" "web-prod" {
     name = "web_prod"
     description = "Allow inbound HTTP/S traffic from anywhere"
@@ -63,16 +84,5 @@ resource "aws_security_group" "ssh-gbre" {
     tags
     {
         Name = "ssh_gbre"
-    }
-}
-
-
-data "terraform_remote_state" "s3" {
-    backend = "s3"
-    config
-    {
-        bucket = "${aws_s3_bucket.tfstate.bucket}"
-        key = "terraform.tfstate"
-        region = "us-east-1"
     }
 }
