@@ -56,7 +56,22 @@ resource "aws_ecs_cluster" "docker" {
 resource "aws_ecs_task_definition" "slackin" {
   family = "slackin"
   container_definitions = <<EOF
-
+[
+  {
+    "name": "slackin",
+    "image": "055326413375.dkr.ecr.us-east-1.amazonaws.com/slackin:latest",
+    "cpu": 10,
+    "memory": 512,
+    "essential": true,
+    "portMappings": [
+      {
+        "hostPort": 80,
+        "containerPort": 3000,
+        "protocol": "tcp"
+      }
+    ]
+  }
+]
 EOF
 }
 
