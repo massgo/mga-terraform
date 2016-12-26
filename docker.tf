@@ -67,6 +67,6 @@ resource "aws_alb" "docker" {
     }*/
 }
 
-data "aws_acm_certificate" "massgo_wildcard" {
+/*data "aws_acm_certificate" "massgo_wildcard" {
   domain = "*.massgo.org"
-}
+}*/

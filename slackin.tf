@@ -36,8 +36,8 @@ resource "aws_alb_target_group" "slackin" {
 
 resource "aws_alb_listener" "slackin-https" {
    load_balancer_arn = "${aws_alb.docker.arn}"
-   port = "443"
-   protocol = "HTTPS"
+   port = "80"
+   protocol = "HTTP"
    /*ssl_policy = "ELBSecurityPolicy-2015-05"*/
    /*certificate_arn = "${aws_acm_certificate.massgo_wildcard.arn}"*/
 
