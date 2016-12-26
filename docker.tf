@@ -53,35 +53,6 @@ resource "aws_ecs_cluster" "docker" {
   name = "docker"
 }
 
-resource "aws_ecs_task_definition" "slackin" {
-  family = "slackin"
-  container_definitions = <<EOF
-[
-  {
-    "name": "slackin",
-    "image": "055326413375.dkr.ecr.us-east-1.amazonaws.com/slackin:latest",
-    "cpu": 10,
-    "memory": 512,
-    "essential": true,
-    "portMappings": [
-      {
-        "hostPort": 80,
-        "containerPort": 3000,
-        "protocol": "tcp"
-      }
-    ]
-  }
-]
-EOF
-}
-
-resource "aws_ecs_service" "slackin" {
-  name = "slackin"
-  cluster = "${aws_ecs_cluster.docker.id}"
-  task_definition = "${aws_ecs_task_definition.slackin.arn}"
-  desired_count = 1
-}
-
 resource "aws_alb" "docker" {
     name = "docker"
     internal = false
@@ -96,22 +67,6 @@ resource "aws_alb" "docker" {
     }*/
 }
 
-resource "aws_alb_target_group" "slackin" {
-    name = "slackin"
-    port = 80
-    protocol = "HTTP"
-    vpc_id = "${aws_vpc.main.id}"
-}
-
-resource "aws_alb_listener" "slackin-https" {
-   load_balancer_arn = "${aws_alb.docker.arn}"
-   port = "443"
-   protocol = "HTTPS"
-   /*ssl_policy = "ELBSecurityPolicy-2015-05"*/
-   /*certificate_arn = "arn:aws:iam::187416307283:server-certificate/test_cert_rab3wuqwgja25ct3n4jdj2tzu4"*/
-
-   default_action {
-     target_group_arn = "${aws_alb_target_group.slackin.arn}"
-     type = "forward"
-   }
+data "aws_acm_certificate" "massgo_wildcard" {
+  domain = "*.massgo.org"
 }
