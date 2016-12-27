@@ -13,6 +13,12 @@ data "terraform_remote_state" "s3" {
     }
 }
 
+# Key Pair
+resource "aws_key_pair" "massgo_ec2" {
+  key_name = "massgo_ec2"
+  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDf00N/1TcPvHF+FpQFzkijmSQecvk5IoyoCkSF6JA1KJ0hZU5f3sR56Bp9aZyDJlHFGnOSKAchTHDhU75uSTF3aSWVy3b2Qd+Fvmf9QY9OHiHOkHmmoQtrvep8/SHIVRUyjQWdSGNFF3sXdx/i7Qdgaa97jn60+/2QKmo7JV2CtAtyAa7dvYQIm6Gj4z9L72Ca5MTYAaRselcpFpbI9QEaSi4FqrM13GiW7jhX64rbTIzgtxkFgGzDMUo7gehBLqoCTJvHNGDr7CaS0h8U/BNjGZGLGoWB7HCAvZGsvxvPx0oZhV4fpFJqYMIn22kypckcTp1vkShdb4J7kG5A/QJt"
+}
+
 
 # VPC
 resource "aws_vpc" "main" { cidr_block = "172.31.0.0/16" }
