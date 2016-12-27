@@ -34,7 +34,7 @@ resource "aws_alb_target_group" "slackin" {
   vpc_id = "${aws_vpc.main.id}"
 }
 
-resource "aws_alb_target_group_attachment" "docker" {
+resource "aws_alb_target_group_attachment" "slackin" {
   target_group_arn = "${aws_alb_target_group.slackin.arn}"
   target_id = "${aws_instance.docker.id}"
   port = 80
