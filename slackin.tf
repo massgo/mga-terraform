@@ -1,3 +1,7 @@
+resource "aws_ecr_repository" "slackin" {
+  name = "slackin"
+}
+
 resource "aws_ecs_task_definition" "slackin" {
   family = "slackin"
   container_definitions = <<EOF

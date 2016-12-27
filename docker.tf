@@ -1,7 +1,3 @@
-resource "aws_ecr_repository" "slackin" {
-  name = "slackin"
-}
-
 resource "aws_ecr_repository_policy" "basic" {
   repository = "${aws_ecr_repository.slackin.name}"
   policy = <<EOF

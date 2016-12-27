@@ -1,3 +1,7 @@
+resource "aws_ecr_repository" "helloworld" {
+  name = "helloworld"
+}
+
 resource "aws_ecs_task_definition" "helloworld" {
   family = "helloworld"
   container_definitions = <<EOF
