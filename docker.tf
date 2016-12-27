@@ -180,7 +180,7 @@ resource "aws_security_group" "ecs-instance" {
 
 resource "aws_instance" "docker" {
     ami = "ami-6df8fe7a"
-    instance_type = "t2.medium"
+    instance_type = "t2.small"
     key_name = "${aws_key_pair.massgo_ec2.key_name}"
     iam_instance_profile = "${aws_iam_instance_profile.ecs-instance.name}"
 
