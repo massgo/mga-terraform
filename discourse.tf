@@ -1,10 +1,16 @@
 resource "aws_instance" "discourse" {
     ami = "ami-60b6c60a"
     instance_type = "t2.small"
+
     tags = {
         Name = "Discourse"
     }
+
     monitoring = true
+    vpc_security_group_ids = [
+      "${aws_security_group.web-prod.id}",
+      "${aws_security_group.ssh-gbre.id}"
+    ]
 }
 
 module "discourse_address" {

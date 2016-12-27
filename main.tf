@@ -183,3 +183,21 @@ resource "aws_security_group" "ssh-gbre" {
         Name = "ssh_gbre"
     }
 }
+
+resource "aws_security_group" "ssh-vpc" {
+    name = "ssh_vpc"
+    description = "Allow SSH traffic from our VPC"
+
+    ingress
+    {
+        from_port = 0
+        to_port = 22
+        protocol = "tcp"
+        cidr_blocks = ["${aws_vpc.main.cidr_block}"]
+    }
+
+    tags
+    {
+        Name = "ssh_gbre"
+    }
+}
