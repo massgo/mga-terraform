@@ -23,6 +23,11 @@ resource "aws_ecs_task_definition" "proxy" {
         "protocol": "tcp"
       },
       {
+        "hostPort": 81,
+        "containerPort": 81,
+        "protocol": "tcp"
+      },
+      {
         "hostPort": 443,
         "containerPort": 443,
         "protocol": "tcp"
@@ -60,30 +65,6 @@ resource "aws_alb_target_group_attachment" "proxy-http" {
   port = 80
 }
 
-resource "aws_alb_listener" "proxy-http" {
-  load_balancer_arn = "${aws_alb.docker.arn}"
-  port = "80"
-  protocol = "HTTP"
-
-  default_action {
-    target_group_arn = "${aws_alb_target_group.proxy-http.arn}"
-    type = "forward"
-  }
-}
-
-resource "aws_alb_target_group" "proxy-https" {
-  name = "proxy-https"
-  port = 443
-  protocol = "HTTPS"
-  vpc_id = "${aws_vpc.main.id}"
-}
-
-resource "aws_alb_target_group_attachment" "proxy-https" {
-  target_group_arn = "${aws_alb_target_group.proxy-https.arn}"
-  target_id = "${aws_instance.docker.id}"
-  port = 443
-}
-
 resource "aws_alb_listener" "proxy-https" {
   load_balancer_arn = "${aws_alb.docker.arn}"
   port = 443
@@ -92,6 +73,30 @@ resource "aws_alb_listener" "proxy-https" {
 
   default_action {
     target_group_arn = "${aws_alb_target_group.proxy-http.arn}"
+    type = "forward"
+  }
+}
+
+resource "aws_alb_target_group" "proxy-http-redirect" {
+  name = "proxy-http-redirect"
+  port = 81
+  protocol = "HTTP"
+  vpc_id = "${aws_vpc.main.id}"
+}
+
+resource "aws_alb_target_group_attachment" "proxy-http-redirect" {
+  target_group_arn = "${aws_alb_target_group.proxy-http-redirect.arn}"
+  target_id = "${aws_instance.docker.id}"
+  port = 81
+}
+
+resource "aws_alb_listener" "proxy-http" {
+  load_balancer_arn = "${aws_alb.docker.arn}"
+  port = "80"
+  protocol = "HTTP"
+
+  default_action {
+    target_group_arn = "${aws_alb_target_group.proxy-http-redirect.arn}"
     type = "forward"
   }
 }
