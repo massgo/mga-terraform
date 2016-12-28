@@ -1,7 +1,3 @@
-resource "aws_ecr_repository" "slackin" {
-  name = "slackin"
-}
-
 resource "aws_ecr_repository_policy" "basic" {
   repository = "${aws_ecr_repository.slackin.name}"
   policy = <<EOF
@@ -180,7 +176,7 @@ resource "aws_security_group" "ecs-instance" {
 
 resource "aws_instance" "docker" {
     ami = "ami-6df8fe7a"
-    instance_type = "t2.medium"
+    instance_type = "t2.small"
     key_name = "${aws_key_pair.massgo_ec2.key_name}"
     iam_instance_profile = "${aws_iam_instance_profile.ecs-instance.name}"
 
@@ -190,7 +186,8 @@ resource "aws_instance" "docker" {
     monitoring = true
 
     subnet_id = "${aws_subnet.one.id}"
-    vpc_security_group_ids = ["${aws_security_group.ecs-instance.id}"]
+    vpc_security_group_ids = ["${aws_security_group.ecs-instance.id}",
+                              "${aws_security_group.ssh-gbre.id}"]
 }
 
 module "docker_address" {
@@ -213,7 +210,3 @@ resource "aws_alb" "docker" {
         prefix = "alb/docker"
     }*/
 }
-
-/*data "aws_acm_certificate" "massgo_wildcard" {
-  domain = "*.massgo.org"
-}*/
