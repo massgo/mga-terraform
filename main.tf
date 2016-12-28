@@ -184,6 +184,24 @@ resource "aws_security_group" "ssh-gbre" {
     }
 }
 
+resource "aws_security_group" "outbound-all" {
+    name = "outbound_all"
+    description = "Allow all outbound traffic"
+
+    egress
+    {
+        from_port = 0
+        to_port = 65535
+        protocol = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+
+    tags
+    {
+        Name = "outbound_all"
+    }
+}
+
 resource "aws_security_group" "ssh-vpc" {
     name = "ssh_vpc"
     description = "Allow SSH traffic from our VPC"
