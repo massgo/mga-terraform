@@ -9,7 +9,8 @@ resource "aws_instance" "discourse" {
     monitoring = true
     vpc_security_group_ids = [
       "${aws_security_group.web-prod.id}",
-      "${aws_security_group.ssh-gbre.id}"
+      "${aws_security_group.ssh-gbre.id}",
+      "${aws_security_group.outbound-all.id}"
     ]
 }
 
