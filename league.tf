@@ -26,7 +26,6 @@ resource "aws_ecs_task_definition" "league" {
   family = "league"
   volume {
     name = "league-uwsgi"
-    host_path = "/tmp/league-uwsgi/"
   }
   container_definitions = <<EOF
 [
