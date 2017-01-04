@@ -42,6 +42,14 @@ resource "aws_ecs_task_definition" "league" {
       {"name": "POSTGRES_PASSWORD", "value": "league"},
       {"name": "POSTGRES_DB", "value": "league"}
     ],
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-group": "${aws_cloudwatch_log_group.league.name}",
+        "awslogs-region": "${var.region}",
+        "awslogs-stream-prefix": "${aws_ecr_repository.league_app.name}"
+      }
+    },
     "mountPoints": [
       {
         "sourceVolume": "league-uwsgi",
@@ -58,6 +66,14 @@ resource "aws_ecs_task_definition" "league" {
       { "name": "VIRTUAL_HOST", "value": "league.massgo.org"}
     ],
     "essential": true,
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-group": "${aws_cloudwatch_log_group.league.name}",
+        "awslogs-region": "${var.region}",
+        "awslogs-stream-prefix": "${aws_ecr_repository.league_webserver.name}"
+      }
+    },
     "mountPoints": [
       {
         "sourceVolume": "league-uwsgi",
@@ -71,6 +87,14 @@ resource "aws_ecs_task_definition" "league" {
     "cpu": 10,
     "memory": 256,
     "essential": true,
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-group": "${aws_cloudwatch_log_group.league.name}",
+        "awslogs-region": "${var.region}",
+        "awslogs-stream-prefix": "${aws_ecr_repository.league_db.name}"
+      }
+    },
     "environment": [
       {"name": "POSTGRES_USER", "value": "league"},
       {"name": "POSTGRES_PASSWORD", "value": "league"},
@@ -86,4 +110,8 @@ resource "aws_ecs_service" "league" {
   cluster = "${aws_ecs_cluster.docker.id}"
   task_definition = "${aws_ecs_task_definition.league.arn}"
   desired_count = 1
+}
+
+resource "aws_cloudwatch_log_group" "league" {
+  name = "League"
 }
