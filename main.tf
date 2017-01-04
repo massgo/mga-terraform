@@ -176,6 +176,24 @@ resource "aws_security_group" "ssh-gbre" {
     }
 }
 
+resource "aws_security_group" "db-gbre" {
+    name = "db_gbre"
+    description = "Allow DB traffic from gbre.org"
+
+    ingress
+    {
+        from_port = 0
+        to_port = 5432
+        protocol = "tcp"
+        cidr_blocks = ["73.234.173.33/32"]
+    }
+
+    tags
+    {
+        Name = "db_gbre"
+    }
+}
+
 resource "aws_security_group" "outbound-all" {
     name = "outbound_all"
     description = "Allow all outbound traffic"

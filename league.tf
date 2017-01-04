@@ -98,6 +98,13 @@ resource "aws_ecs_task_definition" "league" {
         "awslogs-stream-prefix": "db"
       }
     },
+    "portMappings": [
+      {
+        "hostPort": 5432,
+        "containerPort": 5432,
+        "protocol": "tcp"
+      }
+    ],
     "environment": [
       {"name": "POSTGRES_USER", "value": "league"},
       {"name": "POSTGRES_PASSWORD", "value": "league"},
