@@ -24,9 +24,16 @@ resource "aws_ecr_repository" "league_webserver" {
 
 resource "aws_ecs_task_definition" "league" {
   family = "league"
+
   volume {
     name = "league-uwsgi"
   }
+
+  volume {
+    name = "league-db_data"
+    host_path = "/var/lib/league/db"
+  }
+
   container_definitions = <<EOF
 [
   {
@@ -95,6 +102,12 @@ resource "aws_ecs_task_definition" "league" {
       {"name": "POSTGRES_USER", "value": "league"},
       {"name": "POSTGRES_PASSWORD", "value": "league"},
       {"name": "POSTGRES_DB", "value": "league"}
+    ],
+    "mountPoints": [
+      {
+        "sourceVolume": "league-db_data",
+        "containerPath": "/var/lib/league/db"
+      }
     ]
   }
 ]
