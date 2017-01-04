@@ -32,7 +32,7 @@ resource "aws_ecs_task_definition" "league" {
 [
   {
     "name": "league_app",
-    "image": "${aws_ecr_repository.league_app.registry_id}.dkr.ecr.us-east-1.amazonaws.com/${aws_ecr_repository.league_app.name}:latest",
+    "image": "${aws_ecr_repository.league_app.registry_id}.dkr.ecr.${var.region}.amazonaws.com/${aws_ecr_repository.league_app.name}:latest",
     "cpu": 10,
     "memory": 256,
     "essential": true,
@@ -51,7 +51,7 @@ resource "aws_ecs_task_definition" "league" {
   },
   {
     "name": "league_webserver",
-    "image": "${aws_ecr_repository.league_webserver.registry_id}.dkr.ecr.us-east-1.amazonaws.com/${aws_ecr_repository.league_webserver.name}:latest",
+    "image": "${aws_ecr_repository.league_webserver.registry_id}.dkr.ecr.${var.region}.amazonaws.com/${aws_ecr_repository.league_webserver.name}:latest",
     "cpu": 10,
     "memory": 256,
     "environment": [
@@ -67,7 +67,7 @@ resource "aws_ecs_task_definition" "league" {
   },
   {
     "name": "league_db",
-    "image": "${aws_ecr_repository.league_db.registry_id}.dkr.ecr.us-east-1.amazonaws.com/${aws_ecr_repository.league_db.name}:latest",
+    "image": "${aws_ecr_repository.league_db.registry_id}.dkr.ecr.${var.region}.amazonaws.com/${aws_ecr_repository.league_db.name}:latest",
     "cpu": 10,
     "memory": 256,
     "essential": true,
