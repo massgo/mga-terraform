@@ -46,7 +46,7 @@ resource "aws_ecs_task_definition" "league" {
       "options": {
         "awslogs-group": "${aws_cloudwatch_log_group.league.name}",
         "awslogs-region": "${var.region}",
-        "awslogs-stream-prefix": "${aws_ecr_repository.league_app.name}"
+        "awslogs-stream-prefix": "app"
       }
     },
     "mountPoints": [
@@ -69,7 +69,7 @@ resource "aws_ecs_task_definition" "league" {
       "options": {
         "awslogs-group": "${aws_cloudwatch_log_group.league.name}",
         "awslogs-region": "${var.region}",
-        "awslogs-stream-prefix": "${aws_ecr_repository.league_webserver.name}"
+        "awslogs-stream-prefix": "webserver"
       }
     },
     "mountPoints": [
@@ -89,7 +89,7 @@ resource "aws_ecs_task_definition" "league" {
       "options": {
         "awslogs-group": "${aws_cloudwatch_log_group.league.name}",
         "awslogs-region": "${var.region}",
-        "awslogs-stream-prefix": "${aws_ecr_repository.league_db.name}"
+        "awslogs-stream-prefix": "db"
       }
     },
     "environment": [
