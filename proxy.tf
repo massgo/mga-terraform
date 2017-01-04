@@ -12,7 +12,7 @@ resource "aws_ecs_task_definition" "proxy" {
 [
   {
     "name": "proxy",
-    "image": "${aws_ecr_repository.nginx-proxy.registry_id}.dkr.ecr.us-east-1.amazonaws.com/${aws_ecr_repository.nginx-proxy.name}:latest",
+    "image": "${aws_ecr_repository.nginx-proxy.registry_id}.dkr.ecr.${var.region}.amazonaws.com/${aws_ecr_repository.nginx-proxy.name}:latest",
     "cpu": 10,
     "memory": 512,
     "essential": true,
@@ -33,6 +33,14 @@ resource "aws_ecs_task_definition" "proxy" {
         "protocol": "tcp"
       }
     ],
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-group": "${aws_cloudwatch_log_group.nginx-proxy.name}",
+        "awslogs-region": "${var.region}",
+        "awslogs-stream-prefix": "${aws_ecr_repository.nginx-proxy.name}"
+      }
+    },
     "mountPoints": [
       {
         "sourceVolume": "docker-sock",
@@ -99,4 +107,8 @@ resource "aws_alb_listener" "proxy-http" {
     target_group_arn = "${aws_alb_target_group.proxy-http-redirect.arn}"
     type = "forward"
   }
+}
+
+resource "aws_cloudwatch_log_group" "nginx-proxy" {
+  name = "Proxy"
 }
