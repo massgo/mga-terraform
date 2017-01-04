@@ -1,17 +1,9 @@
-# Provider
-provider "aws" { region = "us-east-1" }
-
-
-# Data sources
-data "terraform_remote_state" "s3" {
-    backend = "s3"
-    config
-    {
-        bucket = "${aws_s3_bucket.tfstate.bucket}"
-        key = "terraform.tfstate"
-        region = "us-east-1"
-    }
+variable "region" {
+  default = "us-east-1"
 }
+
+# Provider
+provider "aws" { region = "${var.region}" }
 
 # Key Pair
 resource "aws_key_pair" "massgo_ec2" {
