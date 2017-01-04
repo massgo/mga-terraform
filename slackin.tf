@@ -21,8 +21,15 @@ resource "aws_ecs_task_definition" "slackin" {
   {
     "name": "slackin",
     "image": "${aws_ecr_repository.slackin.registry_id}.dkr.ecr.us-east-1.amazonaws.com/${aws_ecr_repository.slackin.name}:latest",
-    "cpu": 10,
-    "memory": 512,
+    "memory": 128,
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-group": "${aws_cloudwatch_log_group.slackin.name}",
+        "awslogs-region": "${var.region}",
+        "awslogs-stream-prefix": "${aws_ecr_repository.slackin.name}"
+      }
+    },
     "environment": [
       { "name": "VIRTUAL_HOST", "value": "slack.massgo.org"}
     ],
@@ -37,4 +44,8 @@ resource "aws_ecs_service" "slackin" {
   cluster = "${aws_ecs_cluster.docker.id}"
   task_definition = "${aws_ecs_task_definition.slackin.arn}"
   desired_count = 1
+}
+
+resource "aws_cloudwatch_log_group" "slackin" {
+  name = "Slackin"
 }
