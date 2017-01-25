@@ -87,6 +87,7 @@ resource "aws_iam_role_policy" "travis-ci" {
         "ecr:InitiateLayerUpload",
         "ecr:UploadLayerPart",
         "ecr:CompleteLayerUpload",
+        "ecr:GetAuthorizationToken",
         "ecr:ListImages",
         "ecr:DescribeImages"
       ],
