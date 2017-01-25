@@ -51,28 +51,13 @@ resource "aws_iam_role_policy" "ecs-instance" {
 EOF
 }
 
-resource "aws_iam_role" "travis-ci" {
-    name = "travisCi"
-    assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": "sts:AssumeRole",
-      "Principal": {
-        "Service": "ec2.amazonaws.com"
-      },
-      "Effect": "Allow",
-      "Sid": ""
-    }
-  ]
-}
-EOF
+resource "aws_iam_user" "travis" {
+    name = "travis"
 }
 
-resource "aws_iam_role_policy" "travis-ci" {
-    name = "travisCi"
-    role = "${aws_iam_role.travis-ci.id}"
+resource "aws_iam_user_policy" "travis" {
+    name = "travis"
+    user = "${aws_iam_user.travis.id}"
     policy = <<EOF
 {
   "Version": "2012-10-17",
