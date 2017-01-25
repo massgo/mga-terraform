@@ -1,3 +1,7 @@
+variable "league_version" {
+  default = "0.1.1"
+}
+
 resource "aws_route53_record" "league" {
   zone_id = "${aws_route53_zone.root.zone_id}"
   name = "league"
@@ -38,7 +42,7 @@ resource "aws_ecs_task_definition" "league" {
 [
   {
     "name": "league_app",
-    "image": "${aws_ecr_repository.league_app.registry_id}.dkr.ecr.${var.region}.amazonaws.com/${aws_ecr_repository.league_app.name}:latest",
+    "image": "${aws_ecr_repository.league_app.registry_id}.dkr.ecr.${var.region}.amazonaws.com/${aws_ecr_repository.league_app.name}:${var.league_version}",
     "memory": 256,
     "essential": true,
     "links": ["league_db:db"],
@@ -64,7 +68,7 @@ resource "aws_ecs_task_definition" "league" {
   },
   {
     "name": "league_webserver",
-    "image": "${aws_ecr_repository.league_webserver.registry_id}.dkr.ecr.${var.region}.amazonaws.com/${aws_ecr_repository.league_webserver.name}:latest",
+    "image": "${aws_ecr_repository.league_webserver.registry_id}.dkr.ecr.${var.region}.amazonaws.com/${aws_ecr_repository.league_webserver.name}:${league_version}",
     "memory": 256,
     "environment": [
       { "name": "VIRTUAL_HOST", "value": "league.massgo.org"}
@@ -87,7 +91,7 @@ resource "aws_ecs_task_definition" "league" {
   },
   {
     "name": "league_db",
-    "image": "${aws_ecr_repository.league_db.registry_id}.dkr.ecr.${var.region}.amazonaws.com/${aws_ecr_repository.league_db.name}:latest",
+    "image": "${aws_ecr_repository.league_db.registry_id}.dkr.ecr.${var.region}.amazonaws.com/${aws_ecr_repository.league_db.name}:${var.league_version}",
     "memory": 256,
     "essential": true,
     "logConfiguration": {
