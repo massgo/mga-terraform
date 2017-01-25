@@ -1,50 +1,3 @@
-resource "aws_ecr_repository_policy" "basic" {
-  repository = "${aws_ecr_repository.slackin.name}"
-  policy = <<EOF
-{
-  "Version": "2008-10-17",
-  "Statement": [
-    {
-      "Sid": "Andrew Admin",
-      "Effect": "Allow",
-      "Principal": {
-        "AWS": "arn:aws:iam::055326413375:user/andrew"
-      },
-      "Action": [
-          "ecr:GetDownloadUrlForLayer",
-          "ecr:BatchGetImage",
-          "ecr:BatchCheckLayerAvailability",
-          "ecr:PutImage",
-          "ecr:InitiateLayerUpload",
-          "ecr:UploadLayerPart",
-          "ecr:CompleteLayerUpload",
-          "ecr:DescribeRepositories",
-          "ecr:GetRepositoryPolicy",
-          "ecr:ListImages",
-          "ecr:DescribeImages",
-          "ecr:DeleteRepository",
-          "ecr:BatchDeleteImage",
-          "ecr:SetRepositoryPolicy",
-          "ecr:DeleteRepositoryPolicy"
-        ]
-    },
-    {
-      "Sid": "Instance Pull",
-      "Effect": "Allow",
-      "Principal": {
-          "AWS": "${aws_iam_role.ecs-instance.arn}"
-      },
-      "Action": [
-          "ecr:GetDownloadUrlForLayer",
-          "ecr:BatchGetImage",
-          "ecr:BatchCheckLayerAvailability"
-      ]
-    }
-  ]
-}
-EOF
-}
-
 resource "aws_ecs_cluster" "docker" {
   name = "docker"
 }
@@ -90,6 +43,38 @@ resource "aws_iam_role_policy" "ecs-instance" {
         "ecr:BatchGetImage",
         "logs:CreateLogStream",
         "logs:PutLogEvents"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_user" "travis" {
+    name = "travis"
+}
+
+resource "aws_iam_user_policy" "travis" {
+    name = "travis"
+    user = "${aws_iam_user.travis.id}"
+    policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:BatchGetImage",
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:PutImage",
+        "ecr:InitiateLayerUpload",
+        "ecr:UploadLayerPart",
+        "ecr:CompleteLayerUpload",
+        "ecr:GetAuthorizationToken",
+        "ecr:ListImages",
+        "ecr:DescribeImages"
       ],
       "Resource": "*"
     }
