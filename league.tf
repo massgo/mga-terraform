@@ -68,7 +68,7 @@ resource "aws_ecs_task_definition" "league" {
   },
   {
     "name": "league_webserver",
-    "image": "${aws_ecr_repository.league_webserver.registry_id}.dkr.ecr.${var.region}.amazonaws.com/${aws_ecr_repository.league_webserver.name}:${league_version}",
+    "image": "${aws_ecr_repository.league_webserver.registry_id}.dkr.ecr.${var.region}.amazonaws.com/${aws_ecr_repository.league_webserver.name}:${var.league_version}",
     "memory": 256,
     "environment": [
       { "name": "VIRTUAL_HOST", "value": "league.massgo.org"}
