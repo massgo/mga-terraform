@@ -1,5 +1,5 @@
 variable "league_version" {
-  default = "0.1.1"
+  default = "0.2.0"
 }
 
 resource "aws_route53_record" "league" {
