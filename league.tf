@@ -1,5 +1,5 @@
 variable "league_version" {
-  default = "0.2.1"
+  default = "0.3.0"
 }
 
 resource "aws_route53_record" "league" {
@@ -49,7 +49,10 @@ resource "aws_ecs_task_definition" "league" {
     "environment": [
       {"name": "POSTGRES_USER", "value": "league"},
       {"name": "POSTGRES_PASSWORD", "value": "league"},
-      {"name": "POSTGRES_DB", "value": "league"}
+      {"name": "POSTGRES_DB", "value": "league"},
+      {"name": "SERVER_NAME", "value": "league.massgo.org",
+      {"name": "SLACK_CHANNEL", "value": "ronin-league"},
+      {"name": "SLACK_WEBHOOK", "value": "fake-value-please-update"}}
     ],
     "logConfiguration": {
       "logDriver": "awslogs",
