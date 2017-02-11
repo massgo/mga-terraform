@@ -50,7 +50,7 @@ resource "aws_ecs_task_definition" "league" {
       {"name": "POSTGRES_USER", "value": "league"},
       {"name": "POSTGRES_PASSWORD", "value": "league"},
       {"name": "POSTGRES_DB", "value": "league"},
-      {"name": "SERVER_NAME", "value": "league.massgo.org",
+      {"name": "SERVER_NAME", "value": "league.massgo.org"},
       {"name": "SLACK_CHANNEL", "value": "ronin-league"},
       {"name": "SLACK_WEBHOOK", "value": "fake-value-please-update"}
     ],
