@@ -173,7 +173,8 @@ resource "aws_instance" "docker" {
     subnet_id = "${aws_subnet.one.id}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instance.id}",
                               "${aws_security_group.ssh-gbre.id}",
-                              "${aws_security_group.db-gbre.id}"]
+                              "${aws_security_group.db-gbre.id}",
+                              "${aws_security_group.db2-gbre.id}"]
 }
 
 module "docker_address" {
