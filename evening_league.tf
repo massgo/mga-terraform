@@ -22,8 +22,8 @@ resource "aws_ecs_task_definition" "evening_league" {
   }
 
   volume {
-    name = "league-db_data"
-    host_path = "/var/lib/league/db"
+    name = "evening_league-db_data"
+    host_path = "/var/lib/evening_league/db"
   }
 
   container_definitions = <<EOF
