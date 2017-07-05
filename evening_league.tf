@@ -122,5 +122,5 @@ resource "aws_ecs_service" "evening_league" {
 }
 
 resource "aws_cloudwatch_log_group" "evening_league" {
-  name = "Evening League"
+  name = "evening_league"
 }
