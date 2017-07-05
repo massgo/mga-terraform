@@ -60,7 +60,7 @@ resource "aws_ecs_task_definition" "evening_league" {
     "image": "${aws_ecr_repository.league_webserver.registry_id}.dkr.ecr.${var.region}.amazonaws.com/${aws_ecr_repository.league_webserver.name}:${var.evening_league_version}",
     "memory": 256,
     "environment": [
-      { "name": "VIRTUAL_HOST", "value": "evening_league.aws.massgo.org"}
+      { "name": "VIRTUAL_HOST", "value": "evening-league.aws.massgo.org"}
     ],
     "essential": true,
     "logConfiguration": {
