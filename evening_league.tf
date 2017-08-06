@@ -38,7 +38,7 @@ resource "aws_ecs_task_definition" "evening_league" {
       {"name": "POSTGRES_USER", "value": "league"},
       {"name": "POSTGRES_PASSWORD", "value": "league"},
       {"name": "POSTGRES_DB", "value": "league"},
-      {"name": "SERVER_NAME", "value": "evening-league.aws.massgo.org"}
+      {"name": "SERVER_NAME", "value": "evening-league.massgo.org"}
     ],
     "logConfiguration": {
       "logDriver": "awslogs",
@@ -60,7 +60,7 @@ resource "aws_ecs_task_definition" "evening_league" {
     "image": "${aws_ecr_repository.league_webserver.registry_id}.dkr.ecr.${var.region}.amazonaws.com/${aws_ecr_repository.league_webserver.name}:${var.evening_league_version}",
     "memory": 256,
     "environment": [
-      { "name": "VIRTUAL_HOST", "value": "evening-league.aws.massgo.org"}
+      { "name": "VIRTUAL_HOST", "value": "evening-league.massgo.org"}
     ],
     "essential": true,
     "logConfiguration": {
