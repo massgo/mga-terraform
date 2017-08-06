@@ -38,7 +38,7 @@ resource "aws_ecs_task_definition" "evening_league" {
       {"name": "POSTGRES_USER", "value": "league"},
       {"name": "POSTGRES_PASSWORD", "value": "league"},
       {"name": "POSTGRES_DB", "value": "league"},
-      {"name": "SERVER_NAME", "value": "evening-league.aws.massgo.org"}
+      {"name": "SERVER_NAME", "value": "evening-league.massgo.org"}
     ],
     "logConfiguration": {
       "logDriver": "awslogs",
