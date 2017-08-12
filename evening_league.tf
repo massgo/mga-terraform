@@ -1,5 +1,5 @@
 variable "evening_league_version" {
-  default = "0.4.0"
+  default = "0.5.0"
 }
 
 resource "aws_route53_record" "evening_league" {
