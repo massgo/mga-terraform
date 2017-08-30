@@ -31,7 +31,6 @@ resource "aws_ecs_task_definition" "nyc_league" {
   {
     "name": "nyc_league_app",
     "image": "${aws_ecr_repository.league_app.registry_id}.dkr.ecr.${var.region}.amazonaws.com/${aws_ecr_repository.league_app.name}:${var.nyc_league_version}",
-    "memory": 256,
     "essential": true,
     "links": ["nyc_league_db:db"],
     "environment": [
@@ -80,7 +79,6 @@ resource "aws_ecs_task_definition" "nyc_league" {
   {
     "name": "nyc_league_db",
     "image": "${aws_ecr_repository.league_db.registry_id}.dkr.ecr.${var.region}.amazonaws.com/${aws_ecr_repository.league_db.name}:${var.nyc_league_version}",
-    "memory": 256,
     "essential": true,
     "logConfiguration": {
       "logDriver": "awslogs",

@@ -43,7 +43,6 @@ resource "aws_ecs_task_definition" "league" {
   {
     "name": "league_app",
     "image": "${aws_ecr_repository.league_app.registry_id}.dkr.ecr.${var.region}.amazonaws.com/${aws_ecr_repository.league_app.name}:${var.league_version}",
-    "memory": 256,
     "essential": true,
     "links": ["league_db:db"],
     "environment": [
@@ -94,7 +93,6 @@ resource "aws_ecs_task_definition" "league" {
   {
     "name": "league_db",
     "image": "${aws_ecr_repository.league_db.registry_id}.dkr.ecr.${var.region}.amazonaws.com/${aws_ecr_repository.league_db.name}:${var.league_version}",
-    "memory": 256,
     "essential": true,
     "logConfiguration": {
       "logDriver": "awslogs",
