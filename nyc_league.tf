@@ -93,7 +93,7 @@ resource "aws_ecs_task_definition" "nyc_league" {
     },
     "portMappings": [
       {
-        "hostPort": 5433,
+        "hostPort": 5434,
         "containerPort": 5432,
         "protocol": "tcp"
       }
