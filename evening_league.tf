@@ -31,7 +31,7 @@ resource "aws_ecs_task_definition" "evening_league" {
   {
     "name": "evening_league_app",
     "image": "${aws_ecr_repository.league_app.registry_id}.dkr.ecr.${var.region}.amazonaws.com/${aws_ecr_repository.league_app.name}:${var.evening_league_version}",
-    "memory": 256,
+    "memory": 128,
     "essential": true,
     "links": ["evening_league_db:db"],
     "environment": [
