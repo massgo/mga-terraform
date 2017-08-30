@@ -91,13 +91,6 @@ resource "aws_ecs_task_definition" "nyc_league" {
         "awslogs-stream-prefix": "db"
       }
     },
-    "portMappings": [
-      {
-        "hostPort": 5434,
-        "containerPort": 5432,
-        "protocol": "tcp"
-      }
-    ],
     "environment": [
       {"name": "POSTGRES_USER", "value": "league"},
       {"name": "POSTGRES_PASSWORD", "value": "league"},
