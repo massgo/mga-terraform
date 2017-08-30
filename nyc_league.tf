@@ -31,6 +31,7 @@ resource "aws_ecs_task_definition" "nyc_league" {
   {
     "name": "nyc_league_app",
     "image": "${aws_ecr_repository.league_app.registry_id}.dkr.ecr.${var.region}.amazonaws.com/${aws_ecr_repository.league_app.name}:${var.nyc_league_version}",
+    "memoryReservation": 128,
     "essential": true,
     "links": ["nyc_league_db:db"],
     "environment": [
@@ -61,6 +62,7 @@ resource "aws_ecs_task_definition" "nyc_league" {
       { "name": "VIRTUAL_HOST", "value": "nyc-league.massgo.org"}
     ],
     "essential": true,
+    "memoryReservation": 128,
     "logConfiguration": {
       "logDriver": "awslogs",
       "options": {
@@ -80,6 +82,7 @@ resource "aws_ecs_task_definition" "nyc_league" {
     "name": "nyc_league_db",
     "image": "${aws_ecr_repository.league_db.registry_id}.dkr.ecr.${var.region}.amazonaws.com/${aws_ecr_repository.league_db.name}:${var.nyc_league_version}",
     "essential": true,
+    "memoryReservation": 128,
     "logConfiguration": {
       "logDriver": "awslogs",
       "options": {

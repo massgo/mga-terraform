@@ -33,6 +33,7 @@ resource "aws_ecs_task_definition" "evening_league" {
     "image": "${aws_ecr_repository.league_app.registry_id}.dkr.ecr.${var.region}.amazonaws.com/${aws_ecr_repository.league_app.name}:${var.evening_league_version}",
     "essential": true,
     "links": ["evening_league_db:db"],
+    "memoryReservation": 128,
     "environment": [
       {"name": "POSTGRES_USER", "value": "league"},
       {"name": "POSTGRES_PASSWORD", "value": "league"},
@@ -61,6 +62,7 @@ resource "aws_ecs_task_definition" "evening_league" {
       { "name": "VIRTUAL_HOST", "value": "evening-league.massgo.org"}
     ],
     "essential": true,
+    "memoryReservation": 128,
     "logConfiguration": {
       "logDriver": "awslogs",
       "options": {
@@ -80,6 +82,7 @@ resource "aws_ecs_task_definition" "evening_league" {
     "name": "evening_league_db",
     "image": "${aws_ecr_repository.league_db.registry_id}.dkr.ecr.${var.region}.amazonaws.com/${aws_ecr_repository.league_db.name}:${var.evening_league_version}",
     "essential": true,
+    "memoryReservation": 128,
     "logConfiguration": {
       "logDriver": "awslogs",
       "options": {

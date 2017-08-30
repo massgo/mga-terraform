@@ -44,6 +44,7 @@ resource "aws_ecs_task_definition" "league" {
     "name": "league_app",
     "image": "${aws_ecr_repository.league_app.registry_id}.dkr.ecr.${var.region}.amazonaws.com/${aws_ecr_repository.league_app.name}:${var.league_version}",
     "essential": true,
+    "memoryReservation": 128,
     "links": ["league_db:db"],
     "environment": [
       {"name": "POSTGRES_USER", "value": "league"},
@@ -75,6 +76,7 @@ resource "aws_ecs_task_definition" "league" {
       { "name": "VIRTUAL_HOST", "value": "league.massgo.org"}
     ],
     "essential": true,
+    "memoryReservation": 128,
     "logConfiguration": {
       "logDriver": "awslogs",
       "options": {
@@ -94,6 +96,7 @@ resource "aws_ecs_task_definition" "league" {
     "name": "league_db",
     "image": "${aws_ecr_repository.league_db.registry_id}.dkr.ecr.${var.region}.amazonaws.com/${aws_ecr_repository.league_db.name}:${var.league_version}",
     "essential": true,
+    "memoryReservation": 128,
     "logConfiguration": {
       "logDriver": "awslogs",
       "options": {
