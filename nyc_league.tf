@@ -1,10 +1,10 @@
-variable "evening_league_version" {
-  default = "0.5.1"
+variable "nyc_league_version" {
+  default = "0.5.2"
 }
 
-resource "aws_route53_record" "evening_league" {
+resource "aws_route53_record" "nyc_league" {
   zone_id = "${aws_route53_zone.root.zone_id}"
-  name = "evening-league"
+  name = "nyc-league"
   type = "A"
 
   alias {
@@ -14,52 +14,52 @@ resource "aws_route53_record" "evening_league" {
   }
 }
 
-resource "aws_ecs_task_definition" "evening_league" {
-  family = "evening_league"
+resource "aws_ecs_task_definition" "nyc_league" {
+  family = "nyc_league"
 
   volume {
-    name = "evening_league-uwsgi"
+    name = "nyc_league-uwsgi"
   }
 
   volume {
-    name = "evening_league-db_data"
-    host_path = "/var/lib/evening_league/db"
+    name = "nyc_league-db_data"
+    host_path = "/var/lib/nyc_league/db"
   }
 
   container_definitions = <<EOF
 [
   {
-    "name": "evening_league_app",
-    "image": "${aws_ecr_repository.league_app.registry_id}.dkr.ecr.${var.region}.amazonaws.com/${aws_ecr_repository.league_app.name}:${var.evening_league_version}",
-    "essential": true,
-    "links": ["evening_league_db:db"],
+    "name": "nyc_league_app",
+    "image": "${aws_ecr_repository.league_app.registry_id}.dkr.ecr.${var.region}.amazonaws.com/${aws_ecr_repository.league_app.name}:${var.nyc_league_version}",
     "memoryReservation": 128,
+    "essential": true,
+    "links": ["nyc_league_db:db"],
     "environment": [
       {"name": "POSTGRES_USER", "value": "league"},
       {"name": "POSTGRES_PASSWORD", "value": "league"},
       {"name": "POSTGRES_DB", "value": "league"},
-      {"name": "SERVER_NAME", "value": "evening-league.massgo.org"}
+      {"name": "SERVER_NAME", "value": "nyc-league.massgo.org"}
     ],
     "logConfiguration": {
       "logDriver": "awslogs",
       "options": {
-        "awslogs-group": "${aws_cloudwatch_log_group.evening_league.name}",
+        "awslogs-group": "${aws_cloudwatch_log_group.nyc_league.name}",
         "awslogs-region": "${var.region}",
         "awslogs-stream-prefix": "app"
       }
     },
     "mountPoints": [
       {
-        "sourceVolume": "evening_league-uwsgi",
+        "sourceVolume": "nyc_league-uwsgi",
         "containerPath": "/tmp/uwsgi"
       }
     ]
   },
   {
     "name": "league_webserver",
-    "image": "${aws_ecr_repository.league_webserver.registry_id}.dkr.ecr.${var.region}.amazonaws.com/${aws_ecr_repository.league_webserver.name}:${var.evening_league_version}",
+    "image": "${aws_ecr_repository.league_webserver.registry_id}.dkr.ecr.${var.region}.amazonaws.com/${aws_ecr_repository.league_webserver.name}:${var.nyc_league_version}",
     "environment": [
-      { "name": "VIRTUAL_HOST", "value": "evening-league.massgo.org"}
+      { "name": "VIRTUAL_HOST", "value": "nyc-league.massgo.org"}
     ],
     "essential": true,
     "memoryReservation": 128,
@@ -73,31 +73,24 @@ resource "aws_ecs_task_definition" "evening_league" {
     },
     "mountPoints": [
       {
-        "sourceVolume": "evening_league-uwsgi",
+        "sourceVolume": "nyc_league-uwsgi",
         "containerPath": "/tmp/uwsgi"
       }
     ]
   },
   {
-    "name": "evening_league_db",
-    "image": "${aws_ecr_repository.league_db.registry_id}.dkr.ecr.${var.region}.amazonaws.com/${aws_ecr_repository.league_db.name}:${var.evening_league_version}",
+    "name": "nyc_league_db",
+    "image": "${aws_ecr_repository.league_db.registry_id}.dkr.ecr.${var.region}.amazonaws.com/${aws_ecr_repository.league_db.name}:${var.nyc_league_version}",
     "essential": true,
     "memoryReservation": 128,
     "logConfiguration": {
       "logDriver": "awslogs",
       "options": {
-        "awslogs-group": "${aws_cloudwatch_log_group.evening_league.name}",
+        "awslogs-group": "${aws_cloudwatch_log_group.nyc_league.name}",
         "awslogs-region": "${var.region}",
         "awslogs-stream-prefix": "db"
       }
     },
-    "portMappings": [
-      {
-        "hostPort": 5433,
-        "containerPort": 5432,
-        "protocol": "tcp"
-      }
-    ],
     "environment": [
       {"name": "POSTGRES_USER", "value": "league"},
       {"name": "POSTGRES_PASSWORD", "value": "league"},
@@ -105,7 +98,7 @@ resource "aws_ecs_task_definition" "evening_league" {
     ],
     "mountPoints": [
       {
-        "sourceVolume": "evening_league-db_data",
+        "sourceVolume": "nyc_league-db_data",
         "containerPath": "/var/lib/league/db"
       }
     ]
@@ -114,13 +107,13 @@ resource "aws_ecs_task_definition" "evening_league" {
 EOF
 }
 
-resource "aws_ecs_service" "evening_league" {
-  name = "evening_league"
+resource "aws_ecs_service" "nyc_league" {
+  name = "nyc_league"
   cluster = "${aws_ecs_cluster.docker.id}"
-  task_definition = "${aws_ecs_task_definition.evening_league.arn}"
+  task_definition = "${aws_ecs_task_definition.nyc_league.arn}"
   desired_count = 1
 }
 
-resource "aws_cloudwatch_log_group" "evening_league" {
-  name = "evening_league"
+resource "aws_cloudwatch_log_group" "nyc_league" {
+  name = "nyc_league"
 }

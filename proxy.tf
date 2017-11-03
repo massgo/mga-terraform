@@ -14,7 +14,7 @@ resource "aws_ecs_task_definition" "proxy" {
     "name": "proxy",
     "image": "${aws_ecr_repository.nginx-proxy.registry_id}.dkr.ecr.${var.region}.amazonaws.com/${aws_ecr_repository.nginx-proxy.name}:latest",
     "cpu": 10,
-    "memory": 256,
+    "memory": 128,
     "essential": true,
     "portMappings": [
       {
