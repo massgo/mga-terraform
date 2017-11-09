@@ -167,7 +167,7 @@ resource "aws_security_group" "ssh-gbre" {
         from_port = 0
         to_port = 22
         protocol = "tcp"
-        cidr_blocks = ["73.234.173.33/32"]
+        cidr_blocks = ["66.31.46.72/32"]
     }
 
     tags
@@ -185,7 +185,7 @@ resource "aws_security_group" "db-gbre" {
         from_port = 0
         to_port = 5432
         protocol = "tcp"
-        cidr_blocks = ["73.234.173.33/32"]
+        cidr_blocks = ["66.31.46.72/32"]
     }
 
     tags
@@ -203,7 +203,7 @@ resource "aws_security_group" "db2-gbre" {
         from_port = 0
         to_port = 5433
         protocol = "tcp"
-        cidr_blocks = ["73.234.173.33/32"]
+        cidr_blocks = ["66.31.46.72/32"]
     }
 
     tags
