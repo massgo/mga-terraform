@@ -1,5 +1,5 @@
 variable "nyc_league_version" {
-  default = "0.5.2"
+  default = "0.6.1"
 }
 
 resource "aws_route53_record" "nyc_league" {
